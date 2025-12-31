@@ -29,20 +29,19 @@ st.write(ticker_symbol)
 #ticker_symbol = 'AAPL'
 
 ticker_data = yf.Ticker( ticker_symbol )
-pilihan_periode = st.selectbox(
-    'Pilih periode:',
-    ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y']
+# standar ISO untuk tanggal
+tgl_mulai = str(
+    st.date_input(
+        'Tanggal mulai:',
+        value = date.today()
+    )
 )
-tgl_mulai = st.date_input(
-    'Mulai tanggal',
-    value=date.today()
+tgl_akhir = str(
+    st.date_input(
+        'Tanggal akhir:',
+        value = date.today()
+    )
 )
-tgl_akhir = st.date_input(
-    'Sampai tanggal',
-    value=date.today()
-)
-st.write(tgl_mulai)
-st.write(tgl_akhir)
 
 df_ticker = ticker_data.history(
     period=pilihan_periode,
@@ -59,16 +58,16 @@ if pilihan_tampil_tabel == True:
 
 st.write(f"## Visualisasi Pergerakan Saham {kamus_ticker[ticker_symbol]}")
 
-pilihan_atribut = st.multiselect(
-    'Silakan pilih atribut yang akan ditampilkan:',
-    ['Low', 'High', 'Open', 'Close', 'Volume']
-)
-#st.write(pilihan_atribut)
-grafik = px.line(
-    df_ticker,
-    y=pilihan_atribut,
-    title=f"Harga Saham {kamus_ticker[ticker_symbol]}"
-)
-st.plotly_chart( grafik )
+tampil_grafik = st.checkbox('Tampilkan Line Plot')
+if tampil_grafik == True:
+    atribut = st.multiselect(
+        'Silahkan pilih atribut yang akan divisualisasikan',
+        ['Open', 'Close', 'Low', 'High']
+    )
+    grafik = px.line(
+        df,
+        y = atribut,
+        title = f'Harga saham {kamus_ticker[ticker_symbol]}'
+    )
+    st.plotly_chart( grafik )
 
-st.write()
