@@ -44,7 +44,6 @@ tgl_akhir = str(
 )
 
 df_ticker = ticker_data.history(
-    period=pilihan_periode,
     start=str(tgl_mulai),
     end=str(tgl_akhir)
 )
