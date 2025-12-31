@@ -64,7 +64,7 @@ if tampil_grafik == True:
         ['Open', 'Close', 'Low', 'High']
     )
     grafik = px.line(
-        df,
+        df_ticker,
         y = atribut,
         title = f'Harga saham {kamus_ticker[ticker_symbol]}'
     )
